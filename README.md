@@ -1,17 +1,18 @@
-# React + Vite
+• Project title: Hd-Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+• Student name: Karabo Machanja
 
-Currently, two official plugins are available:
+• Description: Hd-hub is a Movie explorer website. 
+    Get information about your favourite movies from old time classics to Latest blockbusters.
+    This is not a streaming site! atleast for the time being it isn't
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+• Technologies used: react, TMDB api, nodejs, react-router-dom, lucide-react, css, supabase-js
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# HDhub-INFS-project
+• Instructions to run project:
+    1. Install react-router-dom "npm i react-router-dom"
+    2. lucide-react "npm i lucide-react"
+    3. node-modules via "npm i"
+    4. install supabase "npm install @supabase/supabase-js"
+    5. run "pnpm run dev"
+    OR
+    paste the link "[hd-hub-the-infs-202-assignment.vercel.app](https://h-dhub-infs-project.vercel.app)"

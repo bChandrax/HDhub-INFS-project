@@ -4,7 +4,8 @@
     --maincolor: hsl(36, 100%, 55%);
     --maincolorhover:  hsl(36, 100%, 65%);
     --maincoloractive:  hsl(36, 100%, 75%);
-    --maincolor2: hsl(36, 100%, 35%);
+    --maincolor2: hsl(36, 100%, 32%);
+    --maincolor3: hsl(36, 100%, 25%);
     --background1: hsl(0, 0%, 10%);
     --background2: hsl(0, 0%, 15%);
     --background3: hsl(36, 20%, 15%);
@@ -22,6 +23,7 @@
     --tagcolor2: hsl(0, 0%, 20%);
     --accent: var(--maincolor);
     --accent2: var(--maincolorhover);
+    --muted-text-light: hsla(0, 0%, 100%, 0.5) ;
 }
 
 /*base definitions*/
@@ -896,6 +898,7 @@ header h1{
 
 .mark-all-read {
     background: transparent;
+    width: 10vw;
     border: 1px solid var(--accentcolor1);
     color: var(--maintextcolor);
     padding: 6px 14px;
@@ -952,7 +955,12 @@ header h1{
     padding-bottom: 4rem;
 }
 
-.downloads-list { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.downloads-list { 
+    padding: 1.5rem 2rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1rem; 
+}
 
 .download-item {
     display: flex;
@@ -976,7 +984,11 @@ header h1{
 }
 
 .download-info { flex: 1; }
-.download-info h2 { font-size: 1rem; color: white; margin-bottom: 6px; }
+
+.download-info h2 { 
+    font-size: 1rem; 
+    color: white; 
+    margin-bottom: 6px; }
 
 .download-meta {
     display: flex;
@@ -986,7 +998,9 @@ header h1{
     margin-bottom: 8px;
 }
 
-.downloading-label { color: var(--maincolor); }
+.downloading-label { 
+    color: var(--maincolor); 
+}
 
 .download-progress-track {
     height: 4px;
@@ -1002,7 +1016,132 @@ header h1{
     transition: width 0.3s;
 }
 
-.download-actions { display: flex; gap: 8px; align-items: center; }
+.download-actions { 
+    display: flex; 
+    gap: 8px; 
+    align-items: center; 
+}
+
+/*----------------------Login Page--------------------*/
+.login-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overflow-cutoff{
+    margin-top: 10vh;
+    border: var(--accentcolor1) 2px solid;
+    display: flex;
+    width: 60vw;
+    height: 80vh;
+    overflow: hidden;
+    border-radius: 1vw;
+}
+
+.cont{
+    display: flex;
+    width: 120vw; 
+    position: relative;
+}
+
+.cont>*{
+    width: 30vw;
+    background-color: var(--background2);
+}
+
+.signin, .pass, .CreateAcc, #PD, #PA{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.signin{
+    position: relative;
+    z-index: 3;
+}
+
+.pass{
+    position: relative;
+    color: var(--maincolor);
+    z-index: 2;
+    background-color: var(--main-color);
+    border-radius: 20% 1vw 1vw 20%;
+}
+
+.CreateAcc{
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.signin>*, .pass>*, .CreateAcc>*, #PA>*, #PD>*{
+    margin-top: 2.5vh;
+}
+
+h1{
+    margin-bottom: 30px;
+}
+
+h1,h2{
+    height: 1.5rem;
+    color: var(--maincolor);
+    font-family: 'Anton', sens-serif;
+    font-weight: lighter;
+}
+
+p{
+    font-family: 'Comic Sans Ms', cursive;
+    color: var(--muted-text-light)
+}
+
+.inputholder{
+    height: 100px;
+    width: 70%;
+}
+
+.inputholder>*{
+    margin-top: 5px;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    color: var(--muted-text);
+    border-radius: 3px;
+}
+
+button{
+    background-color: var(--maincolor);
+    border: 2px solid var(--maincolor2);
+    text-align: center;
+    height: 7vh;
+    aspect-ratio: 16/9;
+    border-radius: 1vh;
+}
+
+input{
+    background-color: var(--background2);
+    border: none;
+    border-bottom: var(--maincolor3) 2px solid;
+    border-top: var(--accentcolor4) 2px solid;
+    border-radius: 20px;
+    color: var(--maintextcolor);
+}
+
+input:focus{
+    background-color: var(--background3);
+    border: solid 1px var(--maincolor2);
+}
+
+#PA, #PD{
+    text-align: center;
+}
+
+#PA{
+    display: none;
+}
 
 /* ── PROFILE PAGE ───────────────────────────────── */
 .profile-page {
@@ -1070,6 +1209,7 @@ header h1{
     display: flex;
     align-items: center;
     gap: 6px;
+    width: 120px;
     background: transparent;
     border: 1px solid var(--accentcolor1);
     color: var(--maintextcolor);
@@ -1108,6 +1248,10 @@ header h1{
 .profile-section h2 { color: white; margin-bottom: 1rem; font-size: 1.1rem; }
 
 .profile-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.profile-links button{
+    width: 160px;
+}
 
 .profile-link-btn {
     display: flex;
@@ -1213,6 +1357,10 @@ header h1{
 
     .trending-now header h1{
         font-size: 16px;
+    }
+
+    .btn-watch>*{
+        size: 100px
     }
 
     .trending-now-cards{
@@ -1325,6 +1473,11 @@ header h1{
     .btn-watch{
         width: 60%;
     }
+
+    .mark-all-read {
+        font-size: .75rem;
+        width: 17vw;
+    }
 }
 
 
@@ -1373,5 +1526,10 @@ header h1{
 
     .categories{
         font-size: 16px;
+    }
+
+    .mark-all-read {
+        font-size: .75rem;
+        width: 14vw;
     }
 }

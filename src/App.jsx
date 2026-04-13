@@ -4,13 +4,15 @@ import { Routes, Route } from "react-router-dom";
 
 import IntroOverlay from './components/Intro-overlay';
 import Home from './pages/Home';
+import Login from './pages/Login'
 import DetailsPage from './pages/Details';
 import DownloadsPage from './pages/Downloads';
 import WatchlistPage from './pages/watchlist';
 import NotificationsPage from './pages/notifications';
 import ProfilePage from './pages/profile';
 import SearchResultsPage from './pages/SearchResults';
-import watch from './pages/watch'
+import Watch from './pages/watch'
+import LoginPage from './pages/Login';
 
 function App() {
   const [introDone, setIntroDone] = useState(false);
@@ -28,7 +30,8 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/search" element={<SearchResultsPage />} />
-          <Route path="/watch" element={<watch />} />
+          <Route path="/watch" element={<Watch />} />
+          <Route path="/login" element={<LoginPage/>}/>
         </Routes>
       </div>
     </>

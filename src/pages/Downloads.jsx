@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 const MOCK_DOWNLOADS = [
     { id: 1, title: "Top Gun Maverick", size: "2.1 GB", quality: "1080p", status: "complete" },
     { id: 2, title: "The Batman", size: "1.8 GB", quality: "1080p", status: "complete" },
-    { id: 3, title: "SSpider-Man: No Way Home", size: "3.4 GB", quality: "4K", status: "downloading", progress: 64 },
+    { id: 3, title: "Spider-Man: No Way Home", size: "3.4 GB", quality: "4K", status: "downloading", progress: 64 },
 ];
 
 export default function DownloadsPage() {
@@ -48,9 +48,9 @@ export default function DownloadsPage() {
                                 </div>
                                 <div className="download-actions">
                                     {item.status === "complete" && (
-                                        <button className="btn-watch"><Play size={16} /> Play</button>
+                                        <button className="btn-watch"><Play /> Play</button>
                                     )}
-                                    <button className="btn-remove"><Trash2 size={16} /></button>
+                                    <button className="btn-remove"><Trash2 /></button>
                                 </div>
                             </div>
                         ))}
