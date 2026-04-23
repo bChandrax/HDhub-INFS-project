@@ -399,7 +399,6 @@ header h1{
   margin-top: 5px;
   font-size: 16px;
   color: white;
-  font-weight: bold;
 }
 
 .mov-data{
@@ -1113,6 +1112,8 @@ p{
 }
 
 button{
+    font-family: anton;
+    font-weight: 100;
     background-color: var(--maincolor);
     border: 2px solid var(--maincolor2);
     text-align: center;
