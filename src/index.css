@@ -1114,7 +1114,7 @@ header h1 {
 
 .cont {
     display: flex;
-    /* 3 panels each 30vw = 90vw total; window is 60vw so the 3rd panel is always off-screen */
+    background-color: var(--background2);
     width: 90vw;
     height: 100%;
     position: absolute;
@@ -1126,7 +1126,6 @@ header h1 {
     width: 30vw;
     flex-shrink: 0;
     height: 100%;
-    background-color: var(--background2);
 }
 
 .signin, .pass, .CreateAcc, #PD, #PA {
@@ -1554,37 +1553,102 @@ input:focus {
     .btn-watch     { width: 60%; }
     .mark-all-read { font-size: 0.75rem; width: 17vw; }
 
-    /* Login page on mobile */
-    .overflow-cutoff {
-        width: 95vw;
-        height: 70vh;
-        margin-top: 5vh;
-    }
-    /* Mobile: stack panels vertically */
-    .overflow-cutoff {
-        width: 92vw;
-        height: 85vh;
-        margin-top: 7vh;
+    /* ── LOGIN: MOBILE ─────────────────────────────── */
+
+    /* The visible window — full viewport */
+    .login-wrapper {
+        padding: 0;
+        justify-content: flex-start;
     }
 
-    /* 3 panels stacked = 3x the visible height */
+    .overflow-cutoff {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /*
+     * .cont stacks 3 panels vertically.
+     * signin = 100vh, pass = 100vh, CreateAcc = 100vh → total 300vh
+     * The pass is absolutely positioned outside the flow and
+     * animates independently via JS translateY.
+     */
     .cont {
         flex-direction: column;
-        width: 92vw;
-        height: 255vh;
+        width: 100vw;
+        height: 300vh;
         position: absolute;
         left: 0;
         top: 0;
     }
 
     .cont > * {
-        width: 92vw;
-        height: 85vh;
+        width: 100vw;
+        height: 100vh;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* Pass panel: horizontal curve on mobile (top/bottom instead of left/right) */
-    .pass {
-        border-radius: 20% 20% 1vw 1vw;
+    /* signin and CreateAcc panels: full viewport, content centred */
+    .signin, .CreateAcc {
+        padding: 2rem;
     }
+
+    /*
+     * pass panel: lives outside normal flow on mobile.
+     * Default (Sign In visible): pinned to bottom, 20vh tall, curved top.
+     * After slide (Register visible): pinned to top, 20vh tall, curved bottom.
+     * JS moves it with translateY.
+     */
+    .pass {
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 20vh !important;
+        z-index: 200;
+        border-radius: 40% 40% 0 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 1vh;
+        gap: 0;
+        overflow: visible;
+    }
+
+    /* Text inside pass: compact, fits ~10vh */
+    .pass h2 {
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        height: auto;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .pass p {
+        font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+        margin: 0.3vh 0 0 0;
+        line-height: 1;
+    }
+
+    /* switch button: full width strip at bottom of pass, ~8vh */
+    .pass .switch {
+        width: 80%;
+        height: 8vh;
+        aspect-ratio: unset;
+        margin-top: 1vh;
+        border-radius: 12px;
+        font-size: clamp(0.75rem, 3vw, 0.9rem);
+    }
+
+    /* Give signin/register bottom padding so pass panel doesn't cover the button */
+    .signin { padding-bottom: 24vh; padding-top: 0; }
+    .CreateAcc { padding-top: 24vh; padding-bottom: 0; }
 }

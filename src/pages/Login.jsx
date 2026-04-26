@@ -3,10 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
 
 const MOBILE_BP = 768;
-
-function isMobile() {
-    return window.innerWidth <= MOBILE_BP;
-}
+function isMobile() { return window.innerWidth <= MOBILE_BP; }
 
 export default function LoginPage() {
 
@@ -19,19 +16,18 @@ export default function LoginPage() {
 
     // signin refs
     const signinHeaderRef = useRef(null);
-    const signinLinksRef  = useRef(null);
-    const signinAltRef    = useRef(null);
     const signinForgotRef = useRef(null);
     const signinInputRef  = useRef(null);
     const signinButtonRef = useRef(null);
 
     // createacc refs
     const creHeaderRef = useRef(null);
-    const creLinksRef  = useRef(null);
-    const creAltRef    = useRef(null);
     const creForgotRef = useRef(null);
     const creInputRef  = useRef(null);
     const creButtonRef = useRef(null);
+
+    const signinRefs = [signinHeaderRef, signinForgotRef, signinInputRef, signinButtonRef];
+    const creRefs    = [creHeaderRef,    creForgotRef,    creInputRef,    creButtonRef];
 
     // form state
     const [signInEmail,    setSignInEmail]    = useState("");
@@ -42,109 +38,160 @@ export default function LoginPage() {
     const [error,          setError]          = useState("");
     const [loading,        setLoading]        = useState(false);
 
-    // ── Element shift helpers (direction-aware) ───────────────────────────────
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
-    function shiftSignElements(direction) {
-        const mobile = isMobile();
-        let val, transition;
-        if (direction === "out") {
-            val        = mobile ? "translateY(-30vh)" : "translateX(30vw)";
-            transition = "transform 0.5s ease";
-        } else {
-            val        = mobile ? "translateY(0)"     : "translateX(0)";
-            transition = "transform 0.5s ease 0.25s";
-        }
-        [signinHeaderRef, signinLinksRef, signinAltRef, signinForgotRef, signinInputRef, signinButtonRef].forEach(ref => {
-            if (ref.current) {
-                ref.current.style.transition = transition;
-                ref.current.style.transform  = val;
-            }
+    function setRefs(refs, transform, transition) {
+        refs.forEach(r => {
+            if (!r.current) return;
+            r.current.style.transition = transition;
+            r.current.style.transform  = transform;
         });
     }
 
-    function shiftCreElements(direction) {
-        const mobile = isMobile();
-        let val, transition;
-        if (direction === "out") {
-            val        = mobile ? "translateY(30vh)"  : "translateX(-30vw)";
-            transition = "transform 0.5s ease";
-        } else {
-            val        = mobile ? "translateY(0)"     : "translateX(0)";
-            transition = "transform 0.5s ease 0.25s";
-        }
-        [creHeaderRef, creLinksRef, creAltRef, creForgotRef, creInputRef, creButtonRef].forEach(ref => {
-            if (ref.current) {
-                ref.current.style.transition = transition;
-                ref.current.style.transform  = val;
-            }
-        });
-    }
+    // ── Desktop animation (horizontal) ───────────────────────────────────────
 
-    // ── Slide to Register ─────────────────────────────────────────────────────
-
-    function ToCre() {
-        const mobile = isMobile();
+    function desktopToCre() {
         sliderRef.current.style.transition = "transform 1s ease";
-        sliderRef.current.style.transform  = mobile ? "translateY(-100%)" : "translateX(-30vw)";
+        sliderRef.current.style.transform  = "translateX(-30vw)";
         passRef.current.style.transition   = "border-radius 1s ease";
-        passRef.current.style.borderRadius = mobile ? "1vw 1vw 20% 20%" : "1vw 20% 20% 1vw";
-        shiftSignElements("out");
-        shiftCreElements("reset");
+        passRef.current.style.borderRadius = "1vw 20% 20% 1vw";
+        setRefs(signinRefs, "translateX(30vw)",  "transform 0.5s ease");
+        setRefs(creRefs,    "translateX(0)",      "transform 0.5s ease 0.25s");
     }
 
-    // ── Slide back to Sign In ─────────────────────────────────────────────────
-
-    function ToSi() {
-        const mobile = isMobile();
+    function desktopToSi() {
         sliderRef.current.style.transition = "transform 1s ease";
-        sliderRef.current.style.transform  = mobile ? "translateY(0)" : "translateX(0)";
+        sliderRef.current.style.transform  = "translateX(0)";
         passRef.current.style.transition   = "border-radius 1s ease";
-        passRef.current.style.borderRadius = mobile ? "20% 20% 1vw 1vw" : "20% 1vw 1vw 20%";
-        shiftSignElements("reset");
-        shiftCreElements("out");
+        passRef.current.style.borderRadius = "20% 1vw 1vw 20%";
+        setRefs(signinRefs, "translateX(0)",      "transform 0.5s ease 0.25s");
+        setRefs(creRefs,    "translateX(-30vw)",  "transform 0.5s ease");
     }
+
+    // ── Mobile animation (vertical) ───────────────────────────────────────────
+    //
+    // On mobile the .pass is position:fixed so it moves independently.
+    // The slider moves the signin/register panels (translateY).
+    // The pass sweeps from bottom → off top → settles at top (and reverse).
+
+    function mobileToCre() {
+        // 1. Slide main track up so Register panel comes into view
+        sliderRef.current.style.transition = "transform 1s ease";
+        sliderRef.current.style.transform  = "translateY(-100vh)";
+
+        // 2. Pass: fly upward past the whole screen then settle at top
+        //    Step A — shoot up off screen
+        passRef.current.style.transition   = "transform 0.5s ease";
+        passRef.current.style.transform    = "translateY(-120vh)";
+        //    Step B — after it's gone, snap to top position (no transition), then slide down into top
+        setTimeout(() => {
+            passRef.current.style.transition   = "none";
+            passRef.current.style.transform    = "translateY(-100vh)"; // above viewport (top anchor)
+            passRef.current.style.top          = "0";
+            passRef.current.style.bottom       = "auto";
+            passRef.current.style.borderRadius = "0 0 40% 40%";
+            // tiny delay then animate down into place
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                passRef.current.style.transition = "transform 0.5s ease";
+                passRef.current.style.transform  = "translateY(0)";
+            }));
+        }, 520);
+
+        // 3. Shift signin content up (out), register content stays centred
+        setRefs(signinRefs, "translateY(-20vh)", "transform 0.5s ease");
+        setRefs(creRefs,    "translateY(0)",     "transform 0.5s ease 0.25s");
+    }
+
+    function mobileToSi() {
+        // 1. Slide main track back down
+        sliderRef.current.style.transition = "transform 1s ease";
+        sliderRef.current.style.transform  = "translateY(0)";
+
+        // 2. Pass: fly downward off screen then settle at bottom
+        passRef.current.style.transition   = "transform 0.5s ease";
+        passRef.current.style.transform    = "translateY(120vh)";
+        setTimeout(() => {
+            passRef.current.style.transition   = "none";
+            passRef.current.style.top          = "auto";
+            passRef.current.style.bottom       = "0";
+            passRef.current.style.borderRadius = "40% 40% 0 0";
+            passRef.current.style.transform    = "translateY(100vh)";
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                passRef.current.style.transition = "transform 0.5s ease";
+                passRef.current.style.transform  = "translateY(0)";
+            }));
+        }, 520);
+
+        // 3. Restore signin content, shift register content down (out)
+        setRefs(signinRefs, "translateY(0)",     "transform 0.5s ease 0.25s");
+        setRefs(creRefs,    "translateY(20vh)",  "transform 0.5s ease");
+    }
+
+    // ── Slide dispatcher ──────────────────────────────────────────────────────
 
     function Slide() {
         setError("");
-        if (!hasSlid) { ToCre(); setHasSlid(true); }
-        else           { ToSi(); setHasSlid(false); }
+        if (!hasSlid) {
+            isMobile() ? mobileToCre() : desktopToCre();
+            setHasSlid(true);
+        } else {
+            isMobile() ? mobileToSi() : desktopToSi();
+            setHasSlid(false);
+        }
     }
 
-    // ── Resize listener — fix transforms when crossing breakpoint ────────────
+    // ── Resize listener ───────────────────────────────────────────────────────
 
     useEffect(() => {
-        function handleResize() {
+        function snapToState() {
             if (!sliderRef.current || !passRef.current) return;
             const mobile = isMobile();
 
-            // Snap slider to correct position for new breakpoint
+            // Disable transitions during snap
             sliderRef.current.style.transition = "none";
-            if (hasSlid) {
-                sliderRef.current.style.transform = mobile ? "translateY(-100%)" : "translateX(-30vw)";
-                passRef.current.style.borderRadius = mobile ? "1vw 1vw 20% 20%" : "1vw 20% 20% 1vw";
+            passRef.current.style.transition   = "none";
+            [...signinRefs, ...creRefs].forEach(r => {
+                if (r.current) r.current.style.transition = "none";
+            });
+
+            if (mobile) {
+                // Reset pass to correct fixed position
+                passRef.current.style.transform = "translateY(0)";
+                if (hasSlid) {
+                    sliderRef.current.style.transform  = "translateY(-100vh)";
+                    passRef.current.style.top          = "0";
+                    passRef.current.style.bottom       = "auto";
+                    passRef.current.style.borderRadius = "0 0 40% 40%";
+                    setRefs(signinRefs, "translateY(-20vh)", "none");
+                    setRefs(creRefs,    "translateY(0)",     "none");
+                } else {
+                    sliderRef.current.style.transform  = "translateY(0)";
+                    passRef.current.style.top          = "auto";
+                    passRef.current.style.bottom       = "0";
+                    passRef.current.style.borderRadius = "40% 40% 0 0";
+                    setRefs(signinRefs, "translateY(0)",     "none");
+                    setRefs(creRefs,    "translateY(20vh)",  "none");
+                }
             } else {
-                sliderRef.current.style.transform = mobile ? "translateY(0)" : "translateX(0)";
-                passRef.current.style.borderRadius = mobile ? "20% 20% 1vw 1vw" : "20% 1vw 1vw 20%";
+                // Reset pass back to in-flow desktop styles
+                passRef.current.style.top    = "";
+                passRef.current.style.bottom = "";
+                if (hasSlid) {
+                    sliderRef.current.style.transform  = "translateX(-30vw)";
+                    passRef.current.style.borderRadius = "1vw 20% 20% 1vw";
+                    setRefs(signinRefs, "translateX(30vw)",  "none");
+                    setRefs(creRefs,    "translateX(0)",     "none");
+                } else {
+                    sliderRef.current.style.transform  = "translateX(0)";
+                    passRef.current.style.borderRadius = "20% 1vw 1vw 20%";
+                    setRefs(signinRefs, "translateX(0)",     "none");
+                    setRefs(creRefs,    "translateX(-30vw)", "none");
+                }
             }
-
-            // Snap element shifts too
-            const signVal = hasSlid
-                ? (mobile ? "translateY(-30vh)" : "translateX(30vw)")
-                : "translate(0)";
-            const creVal = hasSlid
-                ? "translate(0)"
-                : (mobile ? "translateY(30vh)" : "translateX(-30vw)");
-
-            [signinHeaderRef, signinLinksRef, signinAltRef, signinForgotRef, signinInputRef, signinButtonRef].forEach(ref => {
-                if (ref.current) { ref.current.style.transition = "none"; ref.current.style.transform = signVal; }
-            });
-            [creHeaderRef, creLinksRef, creAltRef, creForgotRef, creInputRef, creButtonRef].forEach(ref => {
-                if (ref.current) { ref.current.style.transition = "none"; ref.current.style.transform = creVal; }
-            });
         }
 
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        window.addEventListener("resize", snapToState);
+        return () => window.removeEventListener("resize", snapToState);
     }, [hasSlid]);
 
     // ── Auth handlers ─────────────────────────────────────────────────────────
@@ -247,7 +294,9 @@ export default function LoginPage() {
                             onChange={e => setRegPassword(e.target.value)}
                         />
                     </div>
-                    <p className="forgot" ref={creForgotRef}>Already have an account?</p>
+                    <p className="forgot" ref={creForgotRef}>
+                        Already have an account?
+                    </p>
                     <button className="done" ref={creButtonRef} onClick={handleRegister} disabled={loading}>
                         {loading ? "Creating account…" : "Sign Up"}
                     </button>
