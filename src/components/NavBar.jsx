@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Bell, Download, Folder, List, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Bell, Download, Folder, List, X, LogOut } from "lucide-react";
 import SearchBar from "./SearchBar";
+import { useAuth } from "../context/authContext";
 
 export default function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const initial = user?.name?.charAt(0).toUpperCase() || "?";
+
+    function handleLogout() {
+        logout();
+        navigate("/login");
+        setMenuOpen(false);
+    }
 
     return (
         <>
@@ -28,8 +39,9 @@ export default function NavBar() {
                         <button title="Downloads"><Download /></button>
                     </Link>
                     <Link to="/profile">
-                        <button id="profile">KM</button>
+                        <button id="profile" title="Profile">{initial}</button>
                     </Link>
+                    <button title="Logout" onClick={handleLogout}><LogOut /></button>
                     <button className="list-button" onClick={() => setMenuOpen(prev => !prev)}>
                         {menuOpen ? <X /> : <List />}
                     </button>
@@ -48,8 +60,8 @@ export default function NavBar() {
                     <Link to="/downloads" onClick={() => setMenuOpen(false)}>
                         <button><Download /> Downloads</button>
                     </Link>
-                    <Link class="profile-wrapper" to="/profile" onClick={() => setMenuOpen(false)}>
-                        <button id="profile">KM</button><p>Profile</p>
+                    <Link className="profile-wrapper" to="/profile" onClick={() => setMenuOpen(false)}>
+                        <button id="profile">{initial}</button><p>Profile</p>
                     </Link>
                 </div>
             )}
