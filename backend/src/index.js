@@ -12,11 +12,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",  // Vite default
-    "http://localhost:4173",  // Vite preview
-    process.env.FRONTEND_URL, // production URL
-  ].filter(Boolean),
-  credentials: true,
+    "http://localhost:5173",
+    "http://localhost:4173",
+    "h-dhub-infs-project.vercel.app/",
+    process.env.FRONTEND_URL,
+].filter(Boolean),
 }));
 
 app.use(express.json());
