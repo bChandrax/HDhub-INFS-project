@@ -1560,7 +1560,31 @@ input:focus {
         height: 70vh;
         margin-top: 5vh;
     }
-    /* Scale panels to match mobile window width */
-    .cont { width: 285vw; }
-    .cont > * { width: 95vw; }
+    /* Mobile: stack panels vertically */
+    .overflow-cutoff {
+        width: 92vw;
+        height: 85vh;
+        margin-top: 7vh;
+    }
+
+    /* 3 panels stacked = 3x the visible height */
+    .cont {
+        flex-direction: column;
+        width: 92vw;
+        height: 255vh;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .cont > * {
+        width: 92vw;
+        height: 85vh;
+        flex-shrink: 0;
+    }
+
+    /* Pass panel: horizontal curve on mobile (top/bottom instead of left/right) */
+    .pass {
+        border-radius: 20% 20% 1vw 1vw;
+    }
 }
