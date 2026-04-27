@@ -1,4 +1,4 @@
-# StreamVault 🎬
+# HD-hub 🎬
 
 A movie streaming platform frontend built with React + Vite, backed by a Node.js/Express REST API with SQLite for persistent storage.
 
