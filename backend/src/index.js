@@ -14,7 +14,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:4173",
-    "h-dhub-infs-project.vercel.app/",
+    "https://h-dhub-infs-project-4bxhv1adi-bchandraxs-projects.vercel.app"
     process.env.FRONTEND_URL,
 ].filter(Boolean),
 }));
