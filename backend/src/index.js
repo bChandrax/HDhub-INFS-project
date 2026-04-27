@@ -18,9 +18,9 @@ app.use(cors({
     process.env.FRONTEND_URL,
 ].filter(Boolean),
 }));
-
-app.use(express.json());
 */
+app.use(express.json());
+
 app.use(cors());
 // ─── Routes ───────────────────────────────────────────────────────────────────
 
