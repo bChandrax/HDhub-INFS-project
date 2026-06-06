@@ -14,14 +14,12 @@ import SearchResultsPage from './pages/SearchResults';
 import Watch from './pages/watch';
 import LoginPage from './pages/Login';
 
-/*
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
   return children;
 }
-*/
 
 function AppRoutes() {
   const [introDone, setIntroDone] = useState(false);
