@@ -244,15 +244,15 @@ nav button:active { scale: 0.9; }
 
 .hero-text {
     position: absolute;
-    bottom: 3rem; /* Positions the content relative to the bottom of the hero image */
+    top: 0;
+    bottom: 0;
     left: 0;
     width: 42%;
-    height: auto; /* Allow text to scale naturally without forcing fixed vh overflow */
-    max-height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-end; /* Keeps title, paragraph & buttons pinned nicely at the bottom */
     padding: 2.5%;
+    padding-bottom: 5vh; /* Gives space above the dots/trending section */
     gap: 12px;
     background: linear-gradient(90deg,
         rgba(0,0,0,0.95) 0%,
