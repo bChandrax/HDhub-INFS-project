@@ -212,6 +212,7 @@ nav button:active { scale: 0.9; }
 .hero {
     display: flex;
     width: 100%;
+    position: relative;
 }
 
 .img-wrapper {
@@ -243,13 +244,14 @@ nav button:active { scale: 0.9; }
 
 .hero-text {
     position: absolute;
-    bottom: 0;
+    bottom: 3rem; /* Positions the content relative to the bottom of the hero image */
     left: 0;
     width: 42%;
-    height: 100%;
+    height: auto; /* Allow text to scale naturally without forcing fixed vh overflow */
+    max-height: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 2.5%;
     gap: 12px;
     background: linear-gradient(90deg,
@@ -322,7 +324,7 @@ nav button:active { scale: 0.9; }
 /* ── TRENDING NOW ────────────────────────────────── */
 .trending-now {
     position: relative;
-    margin-top: -33vh;
+    margin-top: -8vh;
     z-index: 10;
     width: 100vw;
 }
@@ -502,7 +504,7 @@ header h1 {
 
 .hero-dots {
     position: absolute;
-    margin-top: -35vh;
+    bottom: 9vh;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
